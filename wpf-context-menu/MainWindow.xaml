@@ -19,7 +19,8 @@
             ItemsSource="{Binding JobItems}" >
             <DataGrid.ContextMenu>
                 <ContextMenu
-                    ItemsSource="{Binding MenuItems, Source={StaticResource ProxyElement}}"                   
+                    ItemsSource="{Binding MenuItems, Source={StaticResource ProxyElement}}" 
+                    ContextMenuOpening="ContextMenu_Opening"
                     Visibility="{
                         Binding IsAdvancedMode,
                         Source={StaticResource ProxyElement},
