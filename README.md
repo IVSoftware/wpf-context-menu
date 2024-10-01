@@ -2,7 +2,7 @@ Let's skip to
 
 > How to overcome this effect?
 
-If I understand your code, you may want to hook the `ContextMenuOpening` event of the `DataGrid` and either mark it `Handled` or not, depending on the value of `IsAdvancedMode`. Marking it `Handled` will prevent the context menu from showing.
+If I understand your intent, you may want to hook the `ContextMenuOpening` event of the `DataGrid` and either mark it `Handled` or not, depending on the value of `IsAdvancedMode`. Marking it `Handled` will prevent the context menu from showing.
 
 ___
 
@@ -11,11 +11,9 @@ ___
 ```
 public partial class MainWindow : Window
 {
-    public MainWindow()
-    {
-        InitializeComponent();
-    }
-    new MainWindowDataContext DataContext =>(MainWindowDataContext)base.DataContext;
+    public MainWindow() => InitializeComponent();
+
+    new MainWindowDataContext DataContext => (MainWindowDataContext)base.DataContext;
 
     private void ContextMenu_Opening(object sender, ContextMenuEventArgs e)
     {
@@ -23,6 +21,7 @@ public partial class MainWindow : Window
     }
 }
 ```
+___
 
 ##### Xaml minimal reproducible example
 
@@ -48,7 +47,6 @@ public partial class MainWindow : Window
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <DataGrid
-            x:Name="dataGrid"
             ItemsSource="{Binding JobItems}"
             ContextMenuOpening="ContextMenu_Opening"
             AutoGenerateColumns="False"
@@ -70,6 +68,7 @@ public partial class MainWindow : Window
     </Grid>
 </Window>
 ```
+___
 
 ##### Data Context minimal reproducible example
 

@@ -8,11 +8,8 @@ namespace wpf_context_menu
 {
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-        new MainWindowDataContext DataContext =>(MainWindowDataContext)base.DataContext;
+        public MainWindow() => InitializeComponent();
+        new MainWindowDataContext DataContext => (MainWindowDataContext)base.DataContext;
 
         private void ContextMenu_Opening(object sender, ContextMenuEventArgs e)
         {
