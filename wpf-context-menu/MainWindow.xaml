@@ -14,17 +14,22 @@
         <local:MainWindowDataContext />
     </Window.DataContext>
     <Grid>
-        <DataGrid ItemsSource="{Binding JobItems}" >
-            <ContextMenu 
-                Visibility="{
-                    Binding IsAdvancedMode,
-                    Source={StaticResource ProxyElement},
-                    Mode=OneWay,
-                    Converter={conv:BoolToVisibilityConverter VisibilityForFalse=Hidden}}"
-                IsEnabled="{
-                    Binding IsAdvancedMode, 
-                    Source={StaticResource ProxyElement},
-                    Mode=OneWay}" />
+        <DataGrid
+            x:Name="dataGrid"
+            ItemsSource="{Binding JobItems}" >
+            <DataGrid.ContextMenu>
+                <ContextMenu
+                    ItemsSource="{Binding MenuItems, Source={StaticResource ProxyElement}}"                   
+                    Visibility="{
+                        Binding IsAdvancedMode,
+                        Source={StaticResource ProxyElement},
+                        Mode=OneWay,
+                        Converter={conv:BoolToVisibilityConverter VisibilityForFalse=Hidden}}"
+                    IsEnabled="{
+                        Binding IsAdvancedMode, 
+                        Source={StaticResource ProxyElement},
+                        Mode=OneWay}"  />
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </Window>

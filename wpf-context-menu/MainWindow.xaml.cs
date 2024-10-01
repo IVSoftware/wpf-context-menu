@@ -2,38 +2,45 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace wpf_context_menu
 {
     public partial class MainWindow : Window
     {
-        public MainWindow() => InitializeComponent();
+        public MainWindow()
+        {
+            InitializeComponent();
+            Loaded += (sender, e) =>
+            {
+                dataGrid.Columns[0].Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+            };
+        }
     }
     partial class MainWindowDataContext : ObservableObject
     {
-        const bool POPULATE_WITH_TEST_DATA = true;
-
-        public MainWindowDataContext()
-        {
-            if(POPULATE_WITH_TEST_DATA)
-            {
-                JobItems.Add(new JobItem { JobName = "Data Backup", StartTime = DateTime.Now.AddMinutes(-30), Status = Status.SUCCESS });
-                JobItems.Add(new JobItem { JobName = "Data Analysis", StartTime = DateTime.Now.AddMinutes(-60), Status = Status.FAILED });
-                JobItems.Add(new JobItem { JobName = "Report Generation", StartTime = DateTime.Now.AddMinutes(-120), Status = Status.SUCCESS });
-            }
-        }
-
         [ObservableProperty]
         private bool _isAdvancedMode;
-        public ObservableCollection<JobItem> JobItems { get; } = new ObservableCollection<JobItem>();
+        public ObservableCollection<JobItem> JobItems { get; } = new ObservableCollection<JobItem>
+        {
+            new JobItem { JobName = "Data Backup", StartTime = DateTime.Now.AddMinutes(-30), Status = Status.SUCCESS },
+            new JobItem { JobName = "Data Analysis", StartTime = DateTime.Now.AddMinutes(-60), Status = Status.FAILED },
+            new JobItem { JobName = "Report Generation", StartTime = DateTime.Now.AddMinutes(-120), Status = Status.SUCCESS },
+        };
     }
     partial class MenuDataContext : ObservableObject
     {
+        public ObservableCollection<MenuItem> MenuItems { get; } = new ObservableCollection<MenuItem>
+        {
+            new MenuItem{ Text = "Rerun" },
+            new MenuItem{ Text = "Delete" },
+        };
     }
 
-     class MenuItem
+    class MenuItem
     {
         public string? Text { get; set; }
+        public override string ToString() => Text ?? "Menu Item";
     }
     enum Status
     {
