@@ -11,16 +11,12 @@ namespace wpf_context_menu
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += (sender, e) =>
-            {
-                dataGrid.Columns[0].Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-            };
         }
         new MainWindowDataContext DataContext =>(MainWindowDataContext)base.DataContext;
 
         private void ContextMenu_Opening(object sender, ContextMenuEventArgs e)
         {
-
+            e.Handled = !DataContext.IsAdvancedMode;
         }
     }
     partial class MainWindowDataContext : ObservableObject

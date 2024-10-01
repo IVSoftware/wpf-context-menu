@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:wpf_context_menu"
         xmlns:conv="clr-namespace:wpf_context_menu.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Width="500" Height="300">
     <Window.Resources>
         <local:MenuDataContext x:Key="ProxyElement" />
     </Window.Resources>
@@ -14,23 +14,29 @@
         <local:MainWindowDataContext />
     </Window.DataContext>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
         <DataGrid
             x:Name="dataGrid"
-            ItemsSource="{Binding JobItems}" >
+            ItemsSource="{Binding JobItems}"
+            ContextMenuOpening="ContextMenu_Opening"
+            AutoGenerateColumns="False"
+            FontSize="16">
             <DataGrid.ContextMenu>
                 <ContextMenu
-                    ItemsSource="{Binding MenuItems, Source={StaticResource ProxyElement}}" 
-                    ContextMenuOpening="ContextMenu_Opening"
-                    Visibility="{
-                        Binding IsAdvancedMode,
-                        Source={StaticResource ProxyElement},
-                        Mode=OneWay,
-                        Converter={conv:BoolToVisibilityConverter VisibilityForFalse=Hidden}}"
-                    IsEnabled="{
-                        Binding IsAdvancedMode, 
-                        Source={StaticResource ProxyElement},
-                        Mode=OneWay}"  />
+                    ItemsSource="{Binding MenuItems, Source={StaticResource ProxyElement}}" />
             </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Job Name" Binding="{Binding JobName}" Width="*" />
+                <DataGridTextColumn Header="Start Time" Binding="{Binding StartTime}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+            </DataGrid.Columns>
         </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <CheckBox IsChecked="{Binding IsAdvancedMode}" />
+            <TextBlock Text="Is Advanced Mode" Margin="5,0,0,0" VerticalAlignment="Center" />
+        </StackPanel>
     </Grid>
 </Window>
